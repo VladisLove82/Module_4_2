@@ -1,14 +1,16 @@
 class House:
-    def __new__(cls, *args, **kwargs):
-        cls.houses_history = []
-        print(args)
-        print(**kwargs)
-        return object.__new__(cls)
 
-    def __init__(self):
+    houses_history = []
+    def __new__(cls, *args, **kwargs):
+        print(args)
+        print(kwargs)
+        return super(House, cls).__new__(cls)
+
+    def __init__(self, name):
+        self.name = name
 
     def __del__(self):
-        return "<название> снесён, но он останется в истории"
+        print(f"{self.name} снесён, но он останется в истории")
 
 
 h1 = House('ЖК Эльбрус', 10)
