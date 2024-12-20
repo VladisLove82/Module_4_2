@@ -52,14 +52,18 @@ class House:
         elif isinstance(other, int):
             return House (self.name, self.number_of_floors + other)
 
-    def __radd__(self, other):
-        return self.__add__(other)
+# Эта часть кода в 2 строчки, заменяет последующие закомментированные 8 строчек
+    __radd__ = __add__
+    __iadd__ = __add__
 
-
-    def __iadd__(self, other):
-        if isinstance(other, int):
-            self.number_of_floors += other
-        return self
+    # def __radd__(self, other):
+    #     return self.__add__(other)
+    #
+    #
+    # def __iadd__(self, other):
+    #     if isinstance(other, int):
+    #         self.number_of_floors += other
+    #     return self
 
 
 h1 = House('ЖК Горский', 18)
