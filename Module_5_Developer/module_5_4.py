@@ -1,13 +1,15 @@
 class House:
 
     houses_history = []
-    def __new__(cls, *args, **kwargs):
-        print(args)
-        print(kwargs)
-        return super(House, cls).__new__(cls)
 
-    def __init__(self, name):
+    def __new__(cls, *args):
+        historical_object = super(House, cls).__new__(cls)
+        cls.houses_history.append(args[0])
+        return historical_object
+
+    def __init__(self, name, floors):
         self.name = name
+        self.floors = floors
 
     def __del__(self):
         print(f"{self.name} снесён, но он останется в истории")
