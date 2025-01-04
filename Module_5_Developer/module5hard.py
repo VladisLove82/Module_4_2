@@ -1,13 +1,81 @@
-import hashlib
 import time
 
+
 class User:
-    def __int__(self, nickname: str, password: str, age: int):
+    def __init__(self, nickname, password, age):
         self.nickname = nickname
-        self.password = self.hash_password(password)
+        self.password = hash(password)
         self.age = age
 
-def hash_password(self, password: str) -> str
+    def __str__(self):
+        return f'{self.nickname}'
+
+
+class Video:
+    def __init__(self, title: str, duration, adult_mode=False):
+        self.title = title
+        self.duration = duration
+        self.time_now = 0
+        self.adult_mode = adult_mode
+
+
+class UrTube:
+    def __init__(self):
+        self.users: list[User] = []
+        self.videos: list[Video] = []
+        self.current_user = None
+
+    def log_in(self, nickname, password):
+        for user in self.users:
+            if nickname == user.nickname and user.password == hash(password):
+                self.current_user = user
+
+    def register(self, nickname, password, age):
+        list_nicknames = []
+        for user in self.users:
+            list_nicknames.append(user.nickname)
+        if nickname not in list_nicknames:
+            user = User(nickname, password, age)
+            self.users.append(user)
+            self.log_in(nickname, password)
+        else:
+            print(f'Пользователь {nickname} уже существует')
+
+    def log_out(self):
+        self.current_user = None
+
+    def add(self, *videos: Video):
+         list_title = []
+         for video in self.videos:
+             list_title.append(video.title)
+         for video in videos:
+             if video.title not in list_title:
+                 self.videos.append(video)
+
+    def get_videos(self, search_word):
+        list_video = []
+        for video in self.videos:
+            if search_word.lower() in video.title.lower():
+                list_video.append(video.title)
+        return list_video
+
+    def watch_video(self, title_video):
+        if self.current_user is None:
+            print("Войдите в аккаунт, что бы смотреть видео")
+            return
+        for video in self.videos:
+            if video.title == title_video:
+                if video.adult_mode and self.current_user.age >= 18:
+                    for second in range(1, video.duration + 1):
+                        print(second, end=' ')
+                        video.time_now += 1
+                        time.sleep(1)
+                    video.time_now = 0
+                    print('Конец видео')
+                else:
+                    print("Вам нет 18 лет, пожалуйста покинте страницу")
+
+
 ur = UrTube()
 v1 = Video('Лучший язык программирования 2024 года', 200)
 v2 = Video('Для чего девушкам парень программист?', 10, adult_mode=True)
